@@ -34,7 +34,6 @@ mypy-extensions==1.0.0
 numpy==1.26.2
 openai==1.6.1
 packaging==23.2
-passlib==1.7.4
 pycparser==2.21
 pydantic==2.5.3
 pydantic_core==2.14.6
