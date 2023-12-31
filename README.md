@@ -14,6 +14,14 @@
 
 -   Execute the bootstrap.sh script to set up the environment and run your Flask application.
 
+## Deployment via Fly
+
+1. Install gunicorn to serve the app
+2. Save all dependencies, `pip3 freeze > requirements.txt`
+3. Configure and launch the app using `fly launch`
+4. Modify profile to use the correct starting point `src.index:app`
+5. Set env files - `OPENAI_API_KEY`, `WEAVIATE_CLUSTER_API_KEY`,`API_KEY`
+
 ## Scripts
 
 1. Create a `.env` file based off of `.env.example`
