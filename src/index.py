@@ -3,11 +3,13 @@ from langchain.embeddings import OpenAIEmbeddings
 from langchain.vectorstores import Weaviate
 import weaviate
 import os
+import functools
 
 # Import env vars
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 WEAVIATE_CLUSTER_API_KEY = os.environ.get('WEAVIATE_CLUSTER_API_KEY')
 WEAVIATE_CLUSTER_URL="https://question-finder-alpha-doxx6cid.weaviate.network"
+API_KEY = os.environ.get('API_KEY')
 
 if not OPENAI_API_KEY or not WEAVIATE_CLUSTER_API_KEY:
     raise ValueError("API keys are not set in environment variables")
@@ -37,6 +39,16 @@ def serialize_document(document):
     }
 app = Flask(__name__)
 
+def require_api_key(view_function):
+    @functools.wraps(view_function)
+    def decorated_function(*args, **kwargs):
+        api_key = request.headers.get('API-KEY')
+        if api_key and api_key == API_KEY:
+            return view_function(*args, **kwargs)
+        else:
+            return jsonify({"message": "Access denied"}), 401
+    return decorated_function
+
 client = weaviate.Client(
     url=WEAVIATE_CLUSTER_URL,  # Replace with your endpoint
     auth_client_secret=weaviate.AuthApiKey(api_key=WEAVIATE_CLUSTER_API_KEY),  # Replace w/ your Weaviate instance API key
@@ -53,7 +65,8 @@ vectorstore = Weaviate(
 print('Connected to weaviate...')
 
 @app.route('/search', methods=['GET'])
-def get_incomes():
+@require_api_key
+def search_vase_vault():
     args = request.args
     query = args.get("query", default=None, type=str)
 
