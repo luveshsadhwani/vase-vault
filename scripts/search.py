@@ -26,7 +26,8 @@ vectorstore = Weaviate(
     index_name="SurveyQuestions", 
     text_key="text", 
     embedding = OpenAIEmbeddings(api_key=OPENAI_API_KEY), 
-    by_text=False
+    by_text=False,
+    attributes=["surveyName", "questionNumber","questionType","surveyName","linkToIvery","organizationName","surveyCompletionDate"]
 )
 
 query="Mobile users with 5G"

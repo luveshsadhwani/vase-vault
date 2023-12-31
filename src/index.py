@@ -14,9 +14,26 @@ if not OPENAI_API_KEY or not WEAVIATE_CLUSTER_API_KEY:
 
 # Serializer for query result, because Document type is not JSON serializable. Document has a property called page_content which is what we want returned
 def serialize_document(document):
-    # Assuming 'document' has attributes that you want to include in the JSON
+    #   Sample document: 
+    #   Document(
+    #       page_content='Question: Are you currently using a 5G mobile line?\nAnswer Choices: YES; NO; Not sure\n: ', 
+    #       metadata={
+    #           'linkToIvery': 'https://admin.askevery.com/survey/###', 
+    #           'organizationName': '###', 
+    #           'questionNumber': 'Q6', 
+    #           'questionType': 'MC', 
+    #           'surveyCompletionDate': '####-##-## 14:54:15', 
+    #           'surveyName': '#### ## ######'
+    #          }
+    #   )
     return {
         'surveyQuestion': document.page_content,
+        'linkToIvery': document.metadata["linkToIvery"], # properties are in a dict., so use bracket notation
+        'organizationName': document.metadata["organizationName"], 
+        'questionNumber': document.metadata["questionNumber"], 
+        'questionType': document.metadata["questionType"], 
+        'surveyCompletionDate': document.metadata["surveyCompletionDate"], 
+        'surveyName': document.metadata["surveyName"], 
     }
 app = Flask(__name__)
 
@@ -30,7 +47,8 @@ vectorstore = Weaviate(
     index_name="SurveyQuestions", 
     text_key="text", 
     embedding = OpenAIEmbeddings(api_key=OPENAI_API_KEY), 
-    by_text=False
+    by_text=False,
+    attributes=["surveyName", "questionNumber","questionType","surveyName","linkToIvery","organizationName","surveyCompletionDate"]
 )
 print('Connected to weaviate...')
 
