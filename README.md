@@ -29,3 +29,6 @@
 
 -   `OPENAI_API_KEY` for access to openai embeddings
 -   `WEAVIATE_CLUSTER_API_KEY` for access to the vectorstore
+-   `WEAVIATE_CLUSTER_URL`
+
+3. Run script with `python3 <SCRIPT_NAME>`

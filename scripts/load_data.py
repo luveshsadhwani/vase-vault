@@ -11,14 +11,14 @@ load_dotenv()
 
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 WEAVIATE_CLUSTER_API_KEY = os.environ.get('WEAVIATE_CLUSTER_API_KEY')
-WEAVIATE_CLUSTER_URL="https://question-finder-alpha-doxx6cid.weaviate.network"
+WEAVIATE_CLUSTER_URL=os.environ.get('WEAVIATE_CLUSTER_URL')
 
 if not OPENAI_API_KEY or not WEAVIATE_CLUSTER_API_KEY:
     raise ValueError("API keys are not set in environment variables")
 
 # Split data into what needs to be embedded and metadata
 loader = CSVLoader(
-    file_path="./vase_vault_full.csv",
+    file_path="./scripts/vase_vault_full.csv",
     metadata_columns=["questionNumber","questionType", "linkToIvery","organizationName","surveyCompletionDate", "surveyName"]
 )
 
