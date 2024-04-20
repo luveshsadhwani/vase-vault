@@ -32,3 +32,19 @@
 -   `WEAVIATE_CLUSTER_URL`
 
 3. Run script with `python3 <SCRIPT_NAME>`
+
+## Updating vase vault - create new instance
+
+1. Create new weaviate instance
+2. Download latest questions from vase vault on google drive
+3. Update `vase_vault_full.csv` with latest questions and format the header row
+4. Update new `WEAVIATE_CLUSTER_API_KEY` and `WEAVIATE_CLUSTER_URL`
+5. Run `load_data` script
+6. Deploy`vase_vault` backend with new fly secrets
+
+## Updating vase vault - extend current instance
+
+1. Extend current weaviate instance in dashboard
+2. Download new survey questions from previous update
+3. Update `vase_vault_full.csv` with latest questions and format the header row
+4. Run `load_data` script
